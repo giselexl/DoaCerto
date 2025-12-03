@@ -229,4 +229,51 @@ public class DoacaoDAO {
             JOptionPane.showMessageDialog(null, "Erro ao avaliar: " + e.getMessage());
         }
     }
+    
+ // --- NOVO: AVALIAR O BENEFICIÁRIO (Feito pelo Doador) ---
+    public void avaliarBeneficiario(int idDoacao, int nota, String comentario) {
+        // 1. Grava a nota na doação (nos campos novos)
+        String sqlAvaliar = "UPDATE Doacao SET notaBeneficiario = ?, avaliacaoBeneficiario = ? WHERE idDoacao = ?";
+        
+        // 2. Descobre quem é o beneficiário dessa doação
+        String sqlDescobreBen = "SELECT idBeneficiario FROM Doacao WHERE idDoacao = ?";
+        
+        // 3. Recalcula a média do Beneficiário
+        String sqlAtualizaMedia = "UPDATE Beneficiario SET pontuacaoAvaliacao = (" +
+                                  "    SELECT AVG(notaBeneficiario) " +
+                                  "    FROM Doacao " +
+                                  "    WHERE idBeneficiario = ? AND notaBeneficiario > 0" +
+                                  ") WHERE idBeneficiario = ?";
+
+        try {
+            // A. Grava avaliação
+            PreparedStatement stmt = con.prepareStatement(sqlAvaliar);
+            stmt.setInt(1, nota);
+            stmt.setString(2, comentario);
+            stmt.setInt(3, idDoacao);
+            stmt.execute();
+            stmt.close();
+
+            // B. Pega ID do Beneficiário
+            PreparedStatement stmtDescobre = con.prepareStatement(sqlDescobreBen);
+            stmtDescobre.setInt(1, idDoacao);
+            ResultSet rs = stmtDescobre.executeQuery();
+            int idBen = 0;
+            if (rs.next()) idBen = rs.getInt("idBeneficiario");
+            stmtDescobre.close();
+
+            // C. Atualiza média dele
+            if (idBen > 0) {
+                PreparedStatement stmtMedia = con.prepareStatement(sqlAtualizaMedia);
+                stmtMedia.setInt(1, idBen);
+                stmtMedia.setInt(2, idBen);
+                stmtMedia.execute();
+                stmtMedia.close();
+            }
+            JOptionPane.showMessageDialog(null, "Beneficiário avaliado com sucesso!");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -6,8 +6,20 @@ public class Beneficiario {
     private String email;
     private String telefone;
     private String endereco;
+	private double pontuacaoAvaliacao;
     
-    
+	
+	
+     public double getPontuacaoAvaliacao() {
+		return pontuacaoAvaliacao;
+	}
+
+
+
+	public void setPontuacaoAvaliacao(double pontuacaoAvaliacao) {
+		this.pontuacaoAvaliacao = pontuacaoAvaliacao;
+	}
+
 
     public int getIdBeneficiario() {
 		return idBeneficiario;

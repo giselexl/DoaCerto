@@ -41,10 +41,16 @@ public class BeneficiarioDAO {
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                Beneficiario b = new Beneficiario();
+            	Beneficiario b = new Beneficiario();
                 b.setIdBeneficiario(rs.getInt("idBeneficiario"));
                 b.setNome(rs.getString("nome"));
-                // ... pode pegar os outros campos se quiser
+                b.setEmail(rs.getString("email"));
+                b.setTelefone(rs.getString("telefone"));
+                b.setEndereco(rs.getString("endereco"));
+                
+                // --- LINHA NOVA: PEGAR A NOTA ---
+                b.setPontuacaoAvaliacao(rs.getDouble("pontuacaoAvaliacao"));
+                
                 lista.add(b);
             }
             stmt.close();
@@ -52,5 +58,26 @@ public class BeneficiarioDAO {
             e.printStackTrace();
         }
         return lista;
+    }
+    
+ // Busca lista de comentários e notas recebidas por um Beneficiário
+    public List<String> listarComentarios(int idBeneficiario) {
+        List<String> comentarios = new ArrayList<>();
+        // Aqui é mais direto, pois o idBeneficiario está na tabela Doacao
+        String sql = "SELECT notaBeneficiario, avaliacaoBeneficiario " +
+                     "FROM Doacao " +
+                     "WHERE idBeneficiario = ? AND notaBeneficiario > 0";
+        try {
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, idBeneficiario);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int nota = rs.getInt("notaBeneficiario");
+                String texto = rs.getString("avaliacaoBeneficiario");
+                comentarios.add("★ " + nota + " - " + texto);
+            }
+            stmt.close();
+        } catch (Exception e) { e.printStackTrace(); }
+        return comentarios;
     }
 }

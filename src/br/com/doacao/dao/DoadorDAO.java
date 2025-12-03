@@ -78,4 +78,26 @@ public class DoadorDAO {
         
         return lista;
     }
+ // Busca lista de comentários e notas recebidas por um Doador
+    public List<String> listarComentarios(int idDoador) {
+        List<String> comentarios = new ArrayList<>();
+
+        String sql = "SELECT d.nota, d.avaliacao " +
+                     "FROM Doacao d " +
+                     "INNER JOIN Item i ON i.idDoacao = d.idDoacao " +
+                     "WHERE i.idDoador = ? AND d.nota > 0";
+        try {
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, idDoador);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int nota = rs.getInt("nota");
+                String texto = rs.getString("avaliacao");
+                comentarios.add("★ " + nota + " - " + texto);
+            }
+            stmt.close();
+        } catch (Exception e) { e.printStackTrace(); }
+        return comentarios;
+    }
+    
 }

@@ -18,7 +18,7 @@ import javax.swing.border.LineBorder;
 
 public class MenuPrincipal extends JFrame {
 
- 
+
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
@@ -43,9 +43,9 @@ public class MenuPrincipal extends JFrame {
     }
 
     public MenuPrincipal() {
-        setTitle("Sistema de Doações - Menu Principal");
+        setTitle("Sistema de Doações - Menu do Gestor");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 700, 500);
+        setBounds(100, 100, 700, 580); // Aumentei a altura para caber o relatório
         contentPane = new JPanel();
         contentPane.setBackground(Color.WHITE);
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -77,9 +77,8 @@ public class MenuPrincipal extends JFrame {
         JButton btnNovoDoador = new JButton("Novo Doador");
         btnNovoDoador.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Abre a tela de cadastro de doador
                 TelaCadastroDoador tela = new TelaCadastroDoador();
-                tela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Fecha só a janela, não o app
+                tela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 tela.setVisible(true);
             }
         });
@@ -136,7 +135,7 @@ public class MenuPrincipal extends JFrame {
         // Separador Vertical
         JSeparator separator = new JSeparator();
         separator.setOrientation(SwingConstants.VERTICAL);
-        separator.setBounds(350, 100, 2, 330);
+        separator.setBounds(350, 100, 2, 380);
         contentPane.add(separator);
 
         // ==========================================================
@@ -171,7 +170,7 @@ public class MenuPrincipal extends JFrame {
         btnMural.setBounds(520, 140, 140, 40);
         contentPane.add(btnMural);
 
-        // --- DOAÇÃO ---
+        // --- PAINEL DE DOAÇÃO ---
         JPanel panelDoacao = new JPanel();
         panelDoacao.setBorder(new LineBorder(new Color(0, 102, 204), 1, true));
         panelDoacao.setBackground(new Color(245, 250, 255));
@@ -186,9 +185,9 @@ public class MenuPrincipal extends JFrame {
         lblAreaDoacao.setBounds(10, 5, 260, 20);
         panelDoacao.add(lblAreaDoacao);
 
-        JButton btnFazerPedido = new JButton("Realizar Pedido");
+        JButton btnFazerPedido = new JButton("Realizar Pedido (Admin)");
         btnFazerPedido.setBackground(new Color(50, 205, 50)); // Verde
-        btnFazerPedido.setForeground(Color.WHITE);
+        btnFazerPedido.setForeground(Color.BLACK);
         btnFazerPedido.setFont(new Font("Segoe UI", Font.BOLD, 12));
         btnFazerPedido.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -201,8 +200,8 @@ public class MenuPrincipal extends JFrame {
         panelDoacao.add(btnFazerPedido);
 
         JButton btnAdministracao = new JButton("Administração (Análise)");
-        btnAdministracao.setBackground(new Color(255, 69, 0)); // Vermelho alaranjado
-        btnAdministracao.setForeground(Color.WHITE);
+        btnAdministracao.setBackground(new Color(255, 69, 0)); // Vermelho
+        btnAdministracao.setForeground(Color.BLACK);
         btnAdministracao.setFont(new Font("Segoe UI", Font.BOLD, 12));
         btnAdministracao.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -214,11 +213,43 @@ public class MenuPrincipal extends JFrame {
         btnAdministracao.setBounds(40, 85, 200, 40);
         panelDoacao.add(btnAdministracao);
         
+        // --- ÁREA DE RELATÓRIOS (NOVO) ---
+        JLabel lblRelatorios = new JLabel("Relatórios & Qualidade");
+        lblRelatorios.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        lblRelatorios.setBounds(380, 360, 250, 30);
+        contentPane.add(lblRelatorios);
+        
+        // BOTÃO NOVO AQUI:
+        JButton btnRelAvaliacoes = new JButton("Relatório de Usuários");
+        btnRelAvaliacoes.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                TelaRelatorioUsuarios tela = new TelaRelatorioUsuarios();
+                tela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                tela.setVisible(true);
+            }
+        });
+        btnRelAvaliacoes.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        btnRelAvaliacoes.setBounds(380, 395, 280, 40);
+        contentPane.add(btnRelAvaliacoes);
+        
+        // --- BOTÃO SAIR ---
+        JButton btnSair = new JButton("Logout / Sair");
+        btnSair.setBackground(new Color(100, 100, 100));
+        btnSair.setForeground(Color.WHITE);
+        btnSair.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new TelaInicial().setVisible(true);
+            }
+        });
+        btnSair.setBounds(10, 490, 120, 30);
+        contentPane.add(btnSair);
+        
         // --- RODAPÉ ---
-        JLabel lblFooter = new JLabel("Sistema desenvolvido em Java + MySQL");
+        JLabel lblFooter = new JLabel("Sistema DoaCerto v1.0 - Modo Gestor");
         lblFooter.setForeground(Color.GRAY);
         lblFooter.setHorizontalAlignment(SwingConstants.CENTER);
-        lblFooter.setBounds(0, 430, 684, 20);
+        lblFooter.setBounds(0, 510, 684, 20);
         contentPane.add(lblFooter);
     }
 }

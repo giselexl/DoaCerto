@@ -108,3 +108,6 @@ INNER JOIN Doador doa ON i.idDoador = doa.idDoador;
 
 
 ALTER TABLE Doacao ADD COLUMN nota INT DEFAULT 0;
+
+ALTER TABLE Doacao ADD COLUMN notaBeneficiario INT DEFAULT 0;
+ALTER TABLE Doacao ADD COLUMN avaliacaoBeneficiario TEXT;
