@@ -2,7 +2,7 @@ package br.com.doacao.model;
 
 import java.time.LocalDateTime;
 
-// CLASSE MÃE ABSTRATA
+
 public abstract class Doacao {
 
     protected int idDoacao;

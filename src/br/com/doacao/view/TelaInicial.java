@@ -59,7 +59,7 @@ public class TelaInicial extends JFrame {
         btnDoador.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Abre direto a área do doador
-                MenuDoador menu = new MenuDoador();
+                DashboardDoador menu = new DashboardDoador();
                 menu.setVisible(true);
                 dispose(); // Fecha essa tela inicial
             }
@@ -80,7 +80,7 @@ public class TelaInicial extends JFrame {
         btnBeneficiario.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Abre direto a área do beneficiário
-                MenuBeneficiario menu = new MenuBeneficiario();
+                DashboardBeneficiario menu = new DashboardBeneficiario();
                 menu.setVisible(true);
                 dispose();
             }
@@ -127,7 +127,7 @@ public class TelaInicial extends JFrame {
         
         if (senha.equals("batata")) {
             // Senha correta!
-            MenuPrincipal admin = new MenuPrincipal();
+            DashboardGestor admin = new DashboardGestor();
             admin.setVisible(true);
             dispose();
         } else {
