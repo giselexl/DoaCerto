@@ -19,7 +19,7 @@ import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.table.DefaultTableModel; //ferramentas gráficas
 
 import br.com.doacao.dao.BeneficiarioDAO;
 import br.com.doacao.dao.DoacaoDAO;
@@ -27,16 +27,16 @@ import br.com.doacao.dao.ItemDAO;
 import br.com.doacao.model.Beneficiario;
 import br.com.doacao.model.Doacao;
 import br.com.doacao.model.DoacaoEmAnalise;
-import br.com.doacao.model.Item;
+import br.com.doacao.model.Item;  //conexões com o restante do projeto
 
-public class DashboardBeneficiario extends JFrame {
+public class DashboardBeneficiario extends JFrame { //significa que a classe é uma janela, e herda características do windows de minimizar, fechar, etc
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
     private JTabbedPane tabbedPane;
 
     // Componentes Gerais
-    private JComboBox<Beneficiario> cbQuemSouEu; // Simula o login
+    private JComboBox<Beneficiario> cbQuemSouEu;
 
     // Aba 1: Mural
     private JTable tabelaMural;
@@ -50,12 +50,12 @@ public class DashboardBeneficiario extends JFrame {
         try { UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); } catch (Exception e) {}
         EventQueue.invokeLater(() -> {
             try { new DashboardBeneficiario().setVisible(true); } catch (Exception e) {}
-        });
-    }
+        }); // escopo geral, para que os métodos consigam acessar
+    } // o ui manager faz com que o visual seja parelho ao do sistema operacional utilizado, o invokelater faz co que entre na fila do processador pra não causar problemas visuais (java swing não é thread safe)
 
     public DashboardBeneficiario() {
         setTitle("Painel do Beneficiário");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //quando clica no x, encerra memória
         setBounds(100, 100, 850, 600);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -129,13 +129,13 @@ public class DashboardBeneficiario extends JFrame {
         JButton btnAtualizar = new JButton("Atualizar Lista");
         
         btnSolicitar.addActionListener(e -> solicitarDoacao());
-        btnAtualizar.addActionListener(e -> atualizarMural());
+        btnAtualizar.addActionListener(e -> atualizarMural()); //essas linhas são expressões lambda, diz que quando houver um clique, uma ação é executada
         
         panelBotao.add(btnAtualizar);
         panelBotao.add(btnSolicitar);
         panel.add(panelBotao, BorderLayout.SOUTH);
 
-        atualizarMural();
+        atualizarMural(); //preenche a tabela de itens disponíveis, chama ItemDAO().listarItens()
         return panel;
     }
 
